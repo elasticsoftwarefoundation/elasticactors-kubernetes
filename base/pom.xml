@@ -1,0 +1,314 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.elasticsoftwarefoundation.elasticactors</groupId>
+  <artifactId>kubernetes-base</artifactId>
+  <version>0.28.5-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>kubernetes-base</name>
+  <url>http://maven.apache.org</url>
+
+  <scm>
+    <connection>scm:git:git@github.com:elasticsoftwarefoundation/elasticactors-kubernetes.git</connection>
+    <developerConnection>scm:git:git@github.com:elasticsoftwarefoundation/elasticactors-kubernetes.git</developerConnection>
+    <url>https://github.com/elasticsoftwarefoundation/elasticactors-kubernetes</url>
+    <tag>HEAD</tag>
+  </scm>
+  
+  <repositories>
+    <repository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/libs-milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <elasticactors.version>${project.version}</elasticactors.version>
+    <spring.version>5.0.0.RC1</spring.version>
+    <netty.version>4.1.11.Final</netty.version>
+    <undertow.version>1.4.15.Final</undertow.version>
+    <jackson.version>2.9.0.pr3</jackson.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.elasticsoftware.elasticactors</groupId>
+      <artifactId>elasticactors-runtime</artifactId>
+      <version>${elasticactors.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.dataformat</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.module</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsoftware.elasticactors</groupId>
+      <artifactId>backplane-cassandra2</artifactId>
+      <version>${elasticactors.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.elasticsoftware.elasticactors</groupId>
+      <artifactId>messaging-rabbitmq</artifactId>
+      <version>${elasticactors.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webflux</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-buffer</artifactId>
+      <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.undertow</groupId>
+      <artifactId>undertow-core</artifactId>
+      <version>${undertow.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-afterburner</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>endpoint</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <!-- use this goal to weave all your main classes -->
+              <goal>test-compile</goal>
+              <!-- use this goal to weave all your test classes -->
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <complianceLevel>1.8</complianceLevel>
+          <source>1.8</source>
+          <target>1.8</target>
+          <showWeaveInfo>true</showWeaveInfo>
+          <weaveDependencies>
+
+          </weaveDependencies>
+          <aspectLibraries combine.children="append">
+            <aspectLibrary>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-aspects</artifactId>
+            </aspectLibrary>
+          </aspectLibraries>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <!-- @todo: this is ugly but it can't be managed in the BOM -->
+            <version>1.8.10</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <fork>true</fork>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
+          <!--
+              <meminitial>128m</meminitial> <maxmem>512m</maxmem>
+              <verbose>false</verbose>
+          -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>false</doCheck>
+          <doUpdate>false</doUpdate>
+          <shortRevisionLength>10</shortRevisionLength>
+          <buildNumberPropertyName>buildNr</buildNumberPropertyName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>parse-version</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <Implementation-Version>
+                ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr}
+              </Implementation-Version>
+              <Implementation-Build>${buildNr}</Implementation-Build>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>docker</id>
+      <activation>
+        <file>
+          <exists>src/main/docker/Dockerfile</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-resources</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${basedir}/target</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>src/main/docker</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <phase>install</phase>
+                <configuration>
+                  <target>
+                    <exec executable="docker">
+                      <arg value="build"/>
+                      <arg value="-t"/>
+                      <arg value="elasticactors/actorsystem:${project.version}"/>
+                      <arg value="target"/>
+                    </exec>
+                    <exec executable="docker">
+                      <arg value="push"/>
+                      <arg value="elasticactors/actorsystem:${project.version}"/>
+                    </exec>
+                    <exec executable="docker">
+                      <arg value="tag"/>
+                      <arg value="elasticactors/actorsystem:${project.version}"/>
+                      <arg value="elasticactors/actorsystem:latest"/>
+                    </exec>
+                    <exec executable="docker">
+                      <arg value="push"/>
+                      <arg value="elasticactors/actorsystem:latest"/>
+                    </exec>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
