@@ -69,7 +69,7 @@
                 </dependencies>
                 <configuration>
                     <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release,release-docker</releaseProfiles>
+                    <releaseProfiles>release,docker-release</releaseProfiles>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                     <arguments>-DskipTests</arguments>
@@ -82,58 +82,6 @@
             <id>release</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy-resources</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${basedir}/target</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/docker</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>deploy-dockerhub</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <target>
-                                        <exec executable="/bin/bash">
-                                            <arg value="-c" />
-                                            <arg value="eval $(minikube docker-env); docker build -t elasticactors/actorsystem:${project.version} target" />
-                                        </exec>
-                                        <exec executable="/bin/bash">
-                                            <arg value="-c" />
-                                            <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:{project.version} elasticactors/actorsystem:latest_release" />
-                                        </exec>
-                                        <exec executable="/bin/bash">
-                                            <arg value="-c" />
-                                            <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:{project.version}" />
-                                        </exec>
-                                        <exec executable="/bin/bash">
-                                            <arg value="-c" />
-                                            <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:latest_release" />
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
                     <!-- attach sources -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
