@@ -51,7 +51,7 @@ spec:
             path: system.properties
       containers:
       - name: actorsystem
-        image: elasticactors/actorsystem:latest_snapshot
+        image: elasticactors/actorsystem:latest_release
         imagePullPolicy: Always
         command: ["bash", "/opt/provision/configure_and_run.sh"]
         lifecycle:

@@ -41,8 +41,8 @@
     <distributionManagement>
         <repository>
             <id>bintray</id>
-            <name>elasticsoftwarefoundation-maven-org.elasticsoftware.elasticactors</name>
-            <url>https://api.bintray.com/maven/elasticsoftwarefoundation/maven/org.elasticsoftware.elasticactors</url>
+            <name>elasticsoftwarefoundation-maven-org.elasticsoftware.elasticactors-kubernetes</name>
+            <url>https://api.bintray.com/maven/elasticsoftwarefoundation/maven/org.elasticsoftware.elasticactors-kubernetes</url>
         </repository>
     </distributionManagement>
 
