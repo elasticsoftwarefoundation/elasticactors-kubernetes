@@ -1,44 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>org.elasticsoftwarefoundation.elasticactors</groupId>
+  <parent>
+    <groupId>org.elasticsoftware.elasticactors-kubernetes</groupId>
+    <artifactId>elasticactors-kubernetes</artifactId>
+    <version>0.29.1-SNAPSHOT</version>
+  </parent>
   <artifactId>kubernetes-base</artifactId>
-  <version>0.29.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Elastic Software Foundation :: ElasticActors Kubernetes :: Base Container</name>
   <url>https://github.com/elasticsoftwarefoundation/elasticactors-kubernetes</url>
-
-  <scm>
-    <connection>scm:git:git@github.com:elasticsoftwarefoundation/elasticactors-kubernetes.git</connection>
-    <developerConnection>scm:git:git@github.com:elasticsoftwarefoundation/elasticactors-kubernetes.git</developerConnection>
-    <url>https://github.com/elasticsoftwarefoundation/elasticactors-kubernetes</url>
-    <tag>HEAD</tag>
-  </scm>
   
-  <repositories>
-    <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/libs-milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <distributionManagement>
-    <repository>
-      <id>bintray</id>
-      <name>elasticsoftwarefoundation-maven-org.elasticsoftware.elasticactors</name>
-      <url>https://api.bintray.com/maven/elasticsoftwarefoundation/maven/org.elasticsoftware.elasticactors</url>
-    </repository>
-  </distributionManagement>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <elasticactors.version>${project.version}</elasticactors.version>
+    <elasticactors.version>0.29.0</elasticactors.version>
     <spring.version>5.0.0.RC1</spring.version>
     <netty.version>4.1.11.Final</netty.version>
     <undertow.version>1.4.15.Final</undertow.version>
@@ -244,24 +219,7 @@
           </archive>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-provider-gitexe</artifactId>
-            <version>1.9</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <useReleaseProfile>false</useReleaseProfile>
-          <releaseProfiles>release</releaseProfiles>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-          <arguments>-DskipTests</arguments>
-        </configuration>
-      </plugin>
+      
     </plugins>
   </build>
   <profiles>
@@ -310,20 +268,20 @@
                 <configuration>
                   <target>
                     <exec executable="/bin/bash">
-                      <arg value="-c"/>
-                      <arg value="eval $(minikube docker-env); docker build -t elasticactors/actorsystem:${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr} target"/>
+                      <arg value="-c" />
+                      <arg value="eval $(minikube docker-env); docker build -t elasticactors/actorsystem:${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr} target" />
                     </exec>
                     <exec executable="/bin/bash">
-                      <arg value="-c"/>
-                      <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr} elasticactors/actorsystem:latest_snapshot"/>
+                      <arg value="-c" />
+                      <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr} elasticactors/actorsystem:latest_snapshot" />
                     </exec>
                     <exec executable="/bin/bash">
-                      <arg value="-c"/>
-                      <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr}"/>
+                      <arg value="-c" />
+                      <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.r${buildNr}" />
                     </exec>
                     <exec executable="/bin/bash">
-                      <arg value="-c"/>
-                      <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:latest_snapshot"/>
+                      <arg value="-c" />
+                      <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:latest_snapshot" />
                     </exec>
                   </target>
                 </configuration>
@@ -341,24 +299,6 @@
       <id>release</id>
       <build>
         <plugins>
-          <!-- attach sources -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>2.2.1</version>
-            <executions>
-              <execution>
-                <id>attach-source</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-                <configuration>
-                  <attach>true</attach>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -369,24 +309,21 @@
               <phase>deploy</phase>
               <configuration>
                 <target>
-                  <exec executable="docker">
-                    <arg value="build"/>
-                    <arg value="-t"/>
-                    <arg value="elasticactors/actorsystem:${project.version}"/>
-                    <arg value="target"/>
+                  <exec executable="/bin/bash">
+                    <arg value="-c" />
+                    <arg value="eval $(minikube docker-env); docker build -t elasticactors/actorsystem:${project.version} target" />
                   </exec>
-                  <exec executable="docker">
-                    <arg value="push"/>
-                    <arg value="elasticactors/actorsystem:${project.version}"/>
+                  <exec executable="/bin/bash">
+                    <arg value="-c" />
+                    <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:{project.version} elasticactors/actorsystem:latest_release" />
                   </exec>
-                  <exec executable="docker">
-                    <arg value="tag"/>
-                    <arg value="elasticactors/actorsystem:${project.version}"/>
-                    <arg value="elasticactors/actorsystem:latest_release"/>
+                  <exec executable="/bin/bash">
+                    <arg value="-c" />
+                    <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:{project.version}" />
                   </exec>
-                  <exec executable="docker">
-                    <arg value="push"/>
-                    <arg value="elasticactors/actorsystem:latest_release"/>
+                  <exec executable="/bin/bash">
+                    <arg value="-c" />
+                    <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:latest_release" />
                   </exec>
                 </target>
               </configuration>
