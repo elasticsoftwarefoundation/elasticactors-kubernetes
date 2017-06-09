@@ -336,11 +336,11 @@
                     </exec>
                     <exec executable="/bin/bash">
                       <arg value="-c" />
-                      <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:{project.version} elasticactors/actorsystem:latest_release" />
+                      <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:${project.version} elasticactors/actorsystem:latest_release" />
                     </exec>
                     <exec executable="/bin/bash">
                       <arg value="-c" />
-                      <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:{project.version}" />
+                      <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:${project.version}" />
                     </exec>
                     <exec executable="/bin/bash">
                       <arg value="-c" />
