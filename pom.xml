@@ -3,7 +3,7 @@
 
     <groupId>org.elasticsoftware.elasticactors-kubernetes</groupId>
     <artifactId>elasticactors-kubernetes</artifactId>
-    <version>0.29.8</version>
+    <version>0.29.9-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Elastic Software Foundation :: ElasticActors :: Kubernetes</name>
@@ -16,7 +16,7 @@
         <connection>scm:git:git@github.com:elasticsoftwarefoundation/elasticactors-kubernetes.git</connection>
         <developerConnection>scm:git:git@github.com:elasticsoftwarefoundation/elasticactors-kubernetes.git</developerConnection>
         <url>https://github.com/elasticsoftwarefoundation/elasticactors-kubernetes</url>
-        <tag>v0.29.8</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <repositories>
