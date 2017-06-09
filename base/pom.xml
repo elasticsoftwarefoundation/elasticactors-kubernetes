@@ -296,7 +296,7 @@
       </build>
     </profile>
     <profile>
-      <id>release</id>
+      <id>release-docker</id>
       <build>
         <plugins>
           <plugin>
