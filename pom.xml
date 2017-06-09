@@ -110,7 +110,7 @@
                         <executions>
                             <execution>
                                 <id>deploy-dockerhub</id>
-                                <phase>install</phase>
+                                <phase>package</phase>
                                 <configuration>
                                     <target>
                                         <exec executable="/bin/bash">
