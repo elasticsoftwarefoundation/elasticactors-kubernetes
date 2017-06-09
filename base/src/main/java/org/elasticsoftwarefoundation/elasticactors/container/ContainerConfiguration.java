@@ -19,6 +19,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @EnableWebFlux
 @EnableMBeanExport
 @PropertySource(value = "classpath:system.properties")
+@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
 @ComponentScan(nameGenerator = ActorAnnotationBeanNameGenerator.class,
         includeFilters = {@ComponentScan.Filter(value = {ServiceActor.class}, type = FilterType.ANNOTATION)})
 @Import(value = {ClusteringConfiguration.class, NodeConfiguration.class, MessagingConfiguration.class, BackplaneConfiguration.class})

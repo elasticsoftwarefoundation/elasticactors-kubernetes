@@ -1,6 +1,7 @@
 package org.elasticsoftwarefoundation.elasticactors.container.util;
 
 import com.datastax.driver.core.*;
+import com.datastax.driver.core.exceptions.InvalidQueryException;
 import com.datastax.driver.core.policies.ConstantReconnectionPolicy;
 import com.datastax.driver.core.policies.DefaultRetryPolicy;
 import com.datastax.driver.core.policies.LoggingRetryPolicy;
@@ -33,6 +34,18 @@ public class Cassandra2SchemaCreator {
 
 
         try {
+            // see if the keyspace already exists
+            boolean create = false;
+            try {
+                cassandraSession.execute("USE \"ElasticActors\";");
+            } catch(InvalidQueryException e) {
+                if("Keyspace 'ElasticActors' does not exist".equals(e.getMessage())) {
+                    System.out.println("Keyspace 'ElasticActors' not found, creating...");
+                    create = true;
+                }
+            }
+
+            if(create) {
             cassandraSession.execute("CREATE KEYSPACE \"ElasticActors\" WITH replication = {\n" +
                     "  'class': 'NetworkTopologyStrategy',\n" +
                     "  'datacenter1': '3'\n" +
@@ -91,6 +104,9 @@ public class Cassandra2SchemaCreator {
                     "  populate_io_cache_on_flush='false' AND\n" +
                     "  compaction={'class': 'SizeTieredCompactionStrategy'} AND\n" +
                     "  compression={'sstable_compression': 'SnappyCompressor'};");
+            } else {
+                System.out.println("Keyspace 'ElasticActors' already exists, skipping creation step...");
+            }
         } finally {
             cassandraSession.close();
             cassandraCluster.close();

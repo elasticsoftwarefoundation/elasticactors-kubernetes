@@ -11,6 +11,11 @@ rabbitmq cluster is reachable under $(`minikube ip`):31042
 
 cassandra cluster is reachable under $(`minikube ip`):31672
 
+to install the base actorsystem image (requires a running minikube)
+
+kubectl create configmap actorsystem-config --from-file=base/src/main/k8s/system.properties --from-file=base/src/main/k8s/config.yaml
+kubectl apply -f base/src/main/k8s/actorsystem.yaml
+
 
 
 

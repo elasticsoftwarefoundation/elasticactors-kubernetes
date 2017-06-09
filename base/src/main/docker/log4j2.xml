@@ -7,7 +7,6 @@
     </Appenders>
     <Loggers>
         <Logger name="org.springframework" level="info"/>
-        <Logger name="io.bux" level="debug"/>
         <Logger name="org.elasticsoftware.elasticactors" level="info"/>
         <Root level="error">
             <AppenderRef ref="STDOUT"/>

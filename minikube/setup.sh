@@ -13,4 +13,4 @@ minikube ssh -- docker run -i --rm --privileged --pid=host debian nsenter -t 1 -
 # setup rabbitmq
 kubectl create secret generic rabbitmq-config --from-literal=erlang-cookie=2b3c4753-e8ee-487c-9564-619c4777c228
 kubectl apply -f rabbitmq.yaml
-kubectl apply -f rabbitmq.yaml
+kubectl apply -f cassandra.yaml
