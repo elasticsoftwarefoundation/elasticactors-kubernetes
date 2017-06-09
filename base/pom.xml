@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.elasticsoftware.elasticactors-kubernetes</groupId>
     <artifactId>elasticactors-kubernetes</artifactId>
-    <version>0.29.5</version>
+    <version>0.29.6-SNAPSHOT</version>
   </parent>
   <artifactId>kubernetes-base</artifactId>
   <packaging>jar</packaging>
