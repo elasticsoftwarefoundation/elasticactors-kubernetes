@@ -161,7 +161,7 @@
               <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>false</overWriteSnapshots>
               <overWriteIfNewer>true</overWriteIfNewer>
@@ -295,43 +295,6 @@
         </plugins>
       </build>
     </profile>
-    <profile>
-      <id>release-docker</id>
-      <build>
-        <plugins>
-          <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.6</version>
-          <executions>
-            <execution>
-              <id>deploy-dockerhub</id>
-              <phase>deploy</phase>
-              <configuration>
-                <target>
-                  <exec executable="/bin/bash">
-                    <arg value="-c" />
-                    <arg value="eval $(minikube docker-env); docker build -t elasticactors/actorsystem:${project.version} target" />
-                  </exec>
-                  <exec executable="/bin/bash">
-                    <arg value="-c" />
-                    <arg value="eval $(minikube docker-env); docker tag elasticactors/actorsystem:{project.version} elasticactors/actorsystem:latest_release" />
-                  </exec>
-                  <exec executable="/bin/bash">
-                    <arg value="-c" />
-                    <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:{project.version}" />
-                  </exec>
-                  <exec executable="/bin/bash">
-                    <arg value="-c" />
-                    <arg value="eval $(minikube docker-env); docker push elasticactors/actorsystem:latest_release" />
-                  </exec>
-                </target>
-              </configuration>
-            </execution>
-          </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+    
   </profiles>
 </project>
