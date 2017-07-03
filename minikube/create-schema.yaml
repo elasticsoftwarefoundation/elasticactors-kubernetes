@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cassandra-schema
+spec:
+  template:
+    metadata:
+      name: cassandra-schema
+    spec:
+      volumes:
+      - name: elasticactors-cql
+        configMap:
+          name: elasticactors-cql
+          items:
+          - key: elasticactors.cql
+            path: elasticactors.cql
+      containers:
+      - name: cassandra-schema
+        image: elasticactors/cassandra:3.11.0
+        imagePullPolicy: Always
+        command: ["/create-schema.sh"]
+        env:
+        - name: CASSANDRA_HOST
+          value: "cassandra-0.cassandra"
+        - name: CQL_FILE
+          value: "/opt/provision/elasticactors.cql"
+        volumeMounts:
+        - name: elasticactors-cql
+          mountPath: /opt/provision
+      restartPolicy: Never

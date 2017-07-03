@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: gcr.io/google-samples/cassandra:v12
+        image: elasticactors/cassandra:3.11.0
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
@@ -66,6 +66,8 @@ spec:
             exec:
               command: ["/bin/sh", "-c", "PID=$(pidof java) && kill $PID && while ps -p $PID > /dev/null; do sleep 1; done"]
         env:
+          - name: CASSANDRA_HOME
+            value: "/usr/local/apache-cassandra-3.11.0"
           - name: MAX_HEAP_SIZE
             value: 512M
           - name: HEAP_NEWSIZE
@@ -76,6 +78,8 @@ spec:
             value: "ElasticActorsCluster"
           - name: CASSANDRA_AUTO_BOOTSTRAP
             value: "false"
+          - name: DEV_CONTAINER
+            value: "true"
           - name: POD_IP
             valueFrom:
               fieldRef:
@@ -98,6 +102,7 @@ spec:
         volumeMounts:
         - name: cassandra-data
           mountPath: /cassandra_data
+
   # These are converted to volume claims by the controller
   # and mounted at the paths mentioned above.
   # do not use these in production until ssd GCEPersistentDisk or other ssd pd

@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsoftware.elasticactors.cluster.ClusterService;
 import org.elasticsoftware.elasticactors.spring.AnnotationConfigApplicationContext;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.UndertowHttpHandlerAdapter;
 import org.springframework.web.reactive.DispatcherHandler;
@@ -24,7 +23,7 @@ public class Entrypoint {
             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ContainerConfiguration.class);  // (1)
 
             HttpHandler handler = DispatcherHandler.toHttpHandler(context);
-
+            
             // start the cluster
             ClusterService clusterService = context.getBean(ClusterService.class);
             try {
