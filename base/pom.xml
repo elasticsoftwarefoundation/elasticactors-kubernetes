@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.elasticsoftware.elasticactors-kubernetes</groupId>
     <artifactId>elasticactors-kubernetes</artifactId>
-    <version>0.29.10-SNAPSHOT</version>
+    <version>1.8.0-SNAPSHOT</version>
   </parent>
   <artifactId>kubernetes-base</artifactId>
   <packaging>jar</packaging>
@@ -13,11 +13,11 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <elasticactors.version>0.29.1</elasticactors.version>
-    <spring.version>5.0.0.RC2</spring.version>
-    <netty.version>4.1.11.Final</netty.version>
-    <undertow.version>1.4.15.Final</undertow.version>
-    <jackson.version>2.9.0.pr4</jackson.version>
+    <elasticactors.version>1.8.2</elasticactors.version>
+    <spring.version>5.1.9.RELEASE</spring.version>
+    <netty.version>4.1.42.Final</netty.version>
+    <undertow.version>2.0.27.Final</undertow.version>
+    <jackson.version>2.10.0</jackson.version>
   </properties>
 
   <dependencies>
@@ -97,7 +97,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>aspectj-maven-plugin</artifactId>
-        <version>1.8</version>
+        <version>1.11</version>
         <executions>
           <execution>
             <goals>
@@ -128,14 +128,14 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjtools</artifactId>
             <!-- @todo: this is ugly but it can't be managed in the BOM -->
-            <version>1.8.10</version>
+            <version>1.9.4</version>
           </dependency>
         </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.8.1</version>
         <configuration>
           <fork>true</fork>
           <source>1.8</source>

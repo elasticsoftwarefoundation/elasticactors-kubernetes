@@ -1,4 +1,4 @@
-FROM davidcaste/debian-oracle-java:jdk8
+FROM adoptopenjdk:11.0.4_11-jdk-hotspot
 MAINTAINER Joost van de Wijgerd <jwijgerd@gmail.com>
 
 COPY lib/           /usr/share/actorsystem/lib

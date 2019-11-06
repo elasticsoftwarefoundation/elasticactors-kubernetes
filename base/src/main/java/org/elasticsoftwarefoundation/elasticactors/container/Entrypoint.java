@@ -8,6 +8,7 @@ import org.elasticsoftware.elasticactors.spring.AnnotationConfigApplicationConte
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.UndertowHttpHandlerAdapter;
 import org.springframework.web.reactive.DispatcherHandler;
+import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -22,7 +23,7 @@ public class Entrypoint {
             // initialize all the beans
             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ContainerConfiguration.class);  // (1)
 
-            HttpHandler handler = DispatcherHandler.toHttpHandler(context);
+            HttpHandler handler = WebHttpHandlerBuilder.applicationContext(context).build();
             
             // start the cluster
             ClusterService clusterService = context.getBean(ClusterService.class);
