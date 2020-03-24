@@ -13,11 +13,11 @@
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <elasticactors.version>1.8.2</elasticactors.version>
-    <spring.version>5.1.9.RELEASE</spring.version>
-    <netty.version>4.1.42.Final</netty.version>
-    <undertow.version>2.0.27.Final</undertow.version>
-    <jackson.version>2.10.0</jackson.version>
+    <elasticactors.version>2.4.1</elasticactors.version>
+    <spring.version>5.2.4.RELEASE</spring.version>
+    <netty.version>4.1.48.Final</netty.version>
+    <undertow.version>2.0.30.Final</undertow.version>
+    <jackson.version>2.10.3</jackson.version>
   </properties>
 
   <dependencies>
