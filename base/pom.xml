@@ -17,7 +17,7 @@
     <spring.version>5.2.4.RELEASE</spring.version>
     <netty.version>4.1.48.Final</netty.version>
     <undertow.version>2.1.6.Final</undertow.version>
-    <jackson.version>2.12.1</jackson.version>
+    <jackson.version>2.12.6.1</jackson.version>
   </properties>
 
   <dependencies>
